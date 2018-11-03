@@ -16,3 +16,45 @@ Built with Java 11, but 1.8 should also be suppored, change `sourceCompatiblity`
 1. Run `./gradlew`   on Linux/Mac,  or `gradlew.bat` on Windows to run a build.
 1. Run `./gradlew generateProto` to regenerate sources from your .proto files
 
+
+
+## Transcoding gRPC to HTTP/JSON using ENVOY
+
+Generating the protobuf descriptor that envoy requires to expose the service as 
+a http/json api. 
+
+1. Goto: https://github.com/protocolbuffers/protobuf/releases/latest" +
+2. download choose the precompiled version " +
+
+       for linux:   protoc-3.6.1-linux-x86_64.zip" +
+       for windows: protoc-3.6.1-win32.zip" +
+       for mac:     protoc-3.6.1-osx-x86_64.zip" +
+
+3. extract it somewhere in your PATH
+4. Run the protoc command from within this project's root directory!
+   
+       protoc -I. -Ibuild/extracted-include-protos/main --include_imports --include_source_info --descriptor_set_out=reservation_service_definition.pb src/main/proto/reservation_service.proto
+       
+5. Run envoy (docker container) from within this directory
+
+       docker run -it --rm --name envoy --network="host" -v "$(pwd)/reservation_service_definition.pb:/tmp/reservation_service_definition.pb:ro" -v "$(pwd)/envoy-config.yml:/etc/envoy/envoy.yaml:ro" envoyproxy/envoy   
+ 
+6. Create a reservation
+
+       curl -X POST \
+         http://localhost:51051/v1/reservations/ \
+         -H 'content-type: application/json' \
+         -d '{
+           "title": "Test",
+           "venue": "Rotterdam",
+           "timestamp": "2018-10-11T15:15:15",
+           "attendees": 15
+       }'
+        
+7. Retrieve it (substitute ID): 
+
+       curl -X GET http://localhost:51051/v1/reservations/<enter-id!!>
+          
+8. Delete it: 
+
+       curl -X DELETE http://localhost:51051/v1/reservations/<enter-id!!>

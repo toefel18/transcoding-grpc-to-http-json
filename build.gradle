@@ -3,19 +3,19 @@ apply plugin: 'com.google.protobuf'
 
 buildscript {
     repositories {
-        maven { 
+        maven {
             // The google mirror is less flaky than mavenCentral()
             url "https://maven-central.storage-download.googleapis.com/repos/central/data/"
         }
     }
-    dependencies { 
+    dependencies {
         // Assumes gradle 2.12 OR HIGHER. Use plugin version 0.7.5 with earlier gradle versions
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
     }
 }
 
 repositories {
-    maven { 
+    maven {
         // The google mirror is less flaky than mavenCentral()
         url "https://maven-central.storage-download.googleapis.com/repos/central/data/"
     }
@@ -56,17 +56,17 @@ dependencies {
 protobuf {
     // Protobuf will search for the protoc command on the systems path by default,
     // but the next line pulls in a specific version of a precompiled protoc without
-    // required it in the system's search path
+    // requiring it in the system's search path
     protoc {
         artifact = "com.google.protobuf:protoc:${protocVersion}"
     }
-    
+
     // Plugins for the protobuf compiler. This sections defines a plugin named 'grpc'
     // which generates java code from the .proto files. 
     plugins {
         grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" }
     }
-    
+
     //The Protobuf plugin generates a task for each protoc run, which is for a sourceSet 
     // in a Java project, or a variant in an Android project. The task has configuration 
     // interfaces that allow you to control the type of outputs, the codegen plugins to use, 

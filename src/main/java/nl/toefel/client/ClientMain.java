@@ -32,8 +32,7 @@ public class ClientMain {
                 .setTitle("Lunchmeeting")
                 .setAttendees(2)
                 .setVenue("JDriven Coltbaan 3")
-                .setTimestamp(Timestamps.fromMillis(ZonedDateTime.parse("2018-11-03T12:30:00Z").toInstant().toEpochMilli()))
-                .setDuration(Durations.fromSeconds(30 * 60))
+                .setTimestamp("2018-10-10T11:12:13")
                 .build();
 
         CreateReservationResponse createdReservationResponse = reservationClient.createReservation(newReservation);
