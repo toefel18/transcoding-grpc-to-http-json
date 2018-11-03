@@ -13,12 +13,10 @@ Built with Java 11, but 1.8 should also be suppored, change `sourceCompatiblity`
 1. Open the project in your favourite IDE 
      * run `./gradlew idea` or `./gradlew eclipse` to configure your IDE to detect the generated code directories.
      
-1. Run `./gradlew`   on Linux/Mac,  or `gradlew.bat` on Windows to run a build.
-1. Run `./gradlew generateProto` to regenerate sources from your .proto files
+1. Run `./gradlew build`   on Linux/Mac,  or `gradlew.bat build` on Windows to run a build.
+1. Run `./gradlew generateProto` generates sources from your .proto files  
 
-
-
-## Transcoding gRPC to HTTP/JSON using ENVOY
+## Transcoding gRPC to HTTP/JSON using Envoy proxy
 
 Generating the protobuf descriptor that envoy requires to expose the service as 
 a http/json api. 
@@ -32,6 +30,10 @@ a http/json api.
 
 3. extract it somewhere in your PATH
 4. Run the protoc command from within this project's root directory!
+   notice that build/extracted-include-protos/main contains proto files from
+   jar files on the classpath, for example: `com.google.api.grpc:googleapis-common-protos:0.0.3`
+   this dependency contains the sources for `google.api.http` options we use
+   in the .proto file
    
        protoc -I. -Ibuild/extracted-include-protos/main --include_imports --include_source_info --descriptor_set_out=reservation_service_definition.pb src/main/proto/reservation_service.proto
        
