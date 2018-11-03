@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+// Creates separate .java files for message and service
+// instead of creating them inside the class defined by
+// java_outer_classname
+option java_multiple_files = true;
+
+// Class that will contain descriptor
+option java_outer_classname = "ReservationServiceProto";
+
+// The package where the generated classes will reside
+option java_package = "nl.toefel.reservations";
+
+// Import additional predefined types for timestamps and durations
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+// required to add annotations to the rpc calls
+import "google/api/annotations.proto";
+
+package reservations;
+
+service ReservationService {
+    rpc CreateReservation(Reservation) returns (CreateReservationResponse) {}
+    rpc GetReservation(GetReservationRequest) returns (Reservation) {}
+    rpc DeleteReservation(DeleteReservationRequest) returns (DeleteReservationResponse) {}
+}
+
+message Reservation {
+    string id = 1;
+    string title = 2;
+    string venue = 3;
+    google.protobuf.Timestamp timestamp = 4;
+    google.protobuf.Duration duration = 5;
+    int32 attendees = 6;
+}
+
+message GetReservationRequest {
+    string id = 1;
+}
+
+message CreateReservationResponse {
+    Reservation reservation = 1;
+}
+
+message DeleteReservationRequest {
+    string id = 1;
+}
+
+message DeleteReservationResponse {
+
+}
