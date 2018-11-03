@@ -14,5 +14,5 @@ Built with Java 11, but 1.8 should also be suppored, change `sourceCompatiblity`
      * run `./gradlew idea` or `./gradlew eclipse` to configure your IDE to detect the generated code directories.
      
 1. Run `./gradlew`   on Linux/Mac,  or `gradlew.bat` on Windows to run a build.
-
+1. Run `./gradlew generateProto` to regenerate sources from your .proto files
 
