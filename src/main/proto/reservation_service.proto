@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package reservations.v1;
+
 // Creates separate .java files for message and service
 // instead of creating them inside the class defined by
 // java_outer_classname
@@ -9,19 +11,18 @@ option java_multiple_files = true;
 option java_outer_classname = "ReservationServiceProto";
 
 // The package where the generated classes will reside
-option java_package = "nl.toefel.reservations";
+option java_package = "nl.toefel.reservations.v1";
 
 // required to add annotations to the rpc calls
 import "google/api/annotations.proto";
-
-package reservations;
+import "google/protobuf/empty.proto";
 
 service ReservationService {
 
-    rpc CreateReservation(Reservation) returns (CreateReservationResponse) {
+    rpc CreateReservation(CreateReservationRequest) returns (Reservation) {
         option(google.api.http) = {
             post: "/v1/reservations"
-            body: "*"
+            body: "reservation"
         };
     }
 
@@ -32,7 +33,16 @@ service ReservationService {
         };
     }
 
-    rpc DeleteReservation(DeleteReservationRequest) returns (DeleteReservationResponse) {
+    // lists all the reservations, use query params on venue or timestamp to filter the resultset.
+    rpc ListReservations(ListReservationsRequest) returns (stream Reservation) {
+        // use query parameter to specify filters, example: ?venue=UtrechtHomeoffice
+        // these query parameters will be automatically mapped to the ListReservationRequest object
+        option (google.api.http) = {
+            get: "/v1/reservations"
+        };
+    }
+
+    rpc DeleteReservation(DeleteReservationRequest) returns (google.protobuf.Empty) {
         // {id} is mapped into the DeleteReservationRequest.id field!
         option (google.api.http) = {
             delete: "/v1/reservations/{id}"
@@ -46,21 +56,32 @@ message Reservation {
     string title = 2;
     string venue = 3;
     string timestamp = 4;
-    int32 attendees = 6;
+    repeated Person attendees = 6;
 }
 
-message GetReservationRequest {
-    string id = 1;
+message Person {
+    string ssn = 1;
+    string firstName = 2;
+    string lastName = 3;
+}
+
+message CreateReservationRequest {
+    Reservation reservation = 2;
 }
 
 message CreateReservationResponse {
     Reservation reservation = 1;
 }
 
-message DeleteReservationRequest {
+message GetReservationRequest {
     string id = 1;
 }
 
-message DeleteReservationResponse {
+message ListReservationsRequest {
+    string venue = 1;
+    string timestamp = 2;
+}
 
+message DeleteReservationRequest {
+    string id = 1;
 }

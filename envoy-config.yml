@@ -24,9 +24,10 @@ static_resources:
                 route: { cluster: grpc, timeout: { seconds: 60 } }
           http_filters:
           - name: envoy.grpc_json_transcoder
+            # configuration docs: https://github.com/envoyproxy/envoy/blob/master/api/envoy/config/filter/http/transcoder/v2/transcoder.proto
             config:
               proto_descriptor: "/tmp/reservation_service_definition.pb"
-              services: ["reservations.ReservationService"]
+              services: ["reservations.v1.ReservationService"]
               print_options:
                 add_whitespace: true
                 always_print_primitive_fields: true

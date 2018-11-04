@@ -1,11 +1,8 @@
 package nl.toefel.server;
 
-import nl.toefel.reservations.Reservation;
+import nl.toefel.reservations.v1.Reservation;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class ReservationRepository {
 
@@ -15,9 +12,6 @@ public class ReservationRepository {
         return Optional.ofNullable(reservationById.get(id));
     }
 
-    /**
-     * @return a reservation instance with ID
-     */
     public Reservation createReservation(Reservation reservation) {
         String id = UUID.randomUUID().toString();
         Reservation reservationWithId = reservation.toBuilder()
@@ -29,8 +23,8 @@ public class ReservationRepository {
         return reservationWithId;
     }
 
-    public void updateReservation(Reservation reservation) {
-        reservationById.put(reservation.getId(), reservation);
+    public List<Reservation> listReservations() {
+        return List.copyOf(reservationById.values());
     }
 
     public void deleteReservation(String id) {
