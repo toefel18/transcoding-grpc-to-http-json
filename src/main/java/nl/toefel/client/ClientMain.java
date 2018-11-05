@@ -27,7 +27,7 @@ public class ClientMain {
             System.out.println(e);
         }
 
-        String createdReservationId = createReservation(reservationClient, "JDriven Coltbaan 3", "2018-10-10T11:12:13");
+        String createdReservationId = createReservation(reservationClient, "JDriven Coltbaan 3", "2018-10-10T11:12:13", "meeting-room");
 
         System.out.println("--- Getting reservation with id " + createdReservationId);
         Reservation existingReservation = reservationClient.getReservation(GetReservationRequest.newBuilder()
@@ -46,9 +46,9 @@ public class ClientMain {
         System.out.println("response: " + existingReservation2);
 
 
-        createReservation(reservationClient, "JDriven Coltbaan 3", "2018-11-10T12:12:13");
-        createReservation(reservationClient, "JDriven Coltbaan 3", "2019-11-12T11:30:13");
-        createReservation(reservationClient, "Vandervalk Hotel", "2019-11-12T11:30:13");
+        createReservation(reservationClient, "JDriven Coltbaan 3", "2018-11-10T12:12:13", "meeting-room");
+        createReservation(reservationClient, "JDriven Coltbaan 3", "2019-11-12T11:30:13", "meeting-room");
+        createReservation(reservationClient, "Vandervalk Hotel", "2019-11-12T11:30:13", "meeting-room");
 
         AtomicInteger counterWithoutFilters = new AtomicInteger();
         reservationClient.listReservations(ListReservationsRequest.newBuilder().build()).forEachRemaining(it -> counterWithoutFilters.getAndIncrement());
@@ -71,7 +71,7 @@ public class ClientMain {
         System.out.println("response: empty" );
     }
 
-    private static String createReservation(ReservationServiceGrpc.ReservationServiceBlockingStub reservationClient, String venue, String timestamp) {
+    private static String createReservation(ReservationServiceGrpc.ReservationServiceBlockingStub reservationClient, String venue, String timestamp, String room) {
         System.out.println("--- Creating reservation ");
         Reservation newReservation = Reservation.newBuilder()
                 .setTitle("Lunchmeeting")
@@ -84,6 +84,7 @@ public class ClientMain {
                         .setFirstName("Dennis")
                         .setLastName("Richie").build())
                 .setVenue(venue)
+                .setRoom(room)
                 .setTimestamp(timestamp)
                 .build();
 

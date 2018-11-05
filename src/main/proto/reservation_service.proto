@@ -55,7 +55,8 @@ message Reservation {
     string id = 1;
     string title = 2;
     string venue = 3;
-    string timestamp = 4;
+    string room = 4;
+    string timestamp = 5;
     repeated Person attendees = 6;
 }
 
@@ -80,6 +81,7 @@ message GetReservationRequest {
 message ListReservationsRequest {
     string venue = 1;
     string timestamp = 2;
+    string room = 3;
 }
 
 message DeleteReservationRequest {

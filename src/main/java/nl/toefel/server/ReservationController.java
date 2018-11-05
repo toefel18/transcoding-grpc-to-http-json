@@ -1,14 +1,11 @@
 package nl.toefel.server;
 
-import com.google.protobuf.Descriptors;
 import com.google.protobuf.Empty;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import nl.toefel.reservations.v1.*;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class ReservationController extends ReservationServiceGrpc.ReservationServiceImplBase {
@@ -58,6 +55,9 @@ class ReservationController extends ReservationServiceGrpc.ReservationServiceImp
         }
         if (!request.getTimestamp().isBlank()) {
             result = result.filter(it -> request.getTimestamp().equals(it.getTimestamp()));
+        }
+        if (!request.getRoom().isBlank()) {
+            result = result.filter(it -> request.getRoom().equals(it.getRoom()));
         }
 
         result.forEach(responseObserver::onNext);
