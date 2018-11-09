@@ -38,7 +38,7 @@ dependencies {
     compile "io.grpc:grpc-netty-shaded:${grpcVersion}"
     compile "io.grpc:grpc-protobuf:${grpcVersion}"
     compile "io.grpc:grpc-stub:${grpcVersion}"
-    compile "com.google.api.grpc:proto-google-common-protos:1.13.0-pre2"
+    compile "com.google.api.grpc:proto-google-common-protos:1.12.0"
     compileOnly "javax.annotation:javax.annotation-api:1.2"
 
     // Used in HelloWorldServerTls

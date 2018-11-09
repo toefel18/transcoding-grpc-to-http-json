@@ -82,6 +82,16 @@ message ListReservationsRequest {
     string venue = 1;
     string timestamp = 2;
     string room = 3;
+
+    Attendees attendees = 4;
+
+    message Attendees {
+        repeated string lastName = 1;
+    }
+}
+
+message PersonFilter {
+    string lastName = 1;
 }
 
 message DeleteReservationRequest {
