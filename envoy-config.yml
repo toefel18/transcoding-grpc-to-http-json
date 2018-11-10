@@ -1,13 +1,13 @@
 admin:
   access_log_path: /tmp/admin_access.log
   address:
-    socket_address: { address: 0.0.0.0, port_value: 9901 }
+    socket_address: { address: 0.0.0.0, port_value: 9901 }         #1
 
 static_resources:
   listeners:
-  - name: listener1
+  - name: main-listener
     address:
-      socket_address: { address: 0.0.0.0, port_value: 51051 }
+      socket_address: { address: 0.0.0.0, port_value: 51051 }      #2
     filter_chains:
     - filters:
       - name: envoy.http_connection_manager
@@ -21,22 +21,22 @@ static_resources:
               domains: ["*"]
               routes:
               - match: { prefix: "/" }
-                route: { cluster: grpc, timeout: { seconds: 60 } }
+                route: { cluster: grpc-backend-services, timeout: { seconds: 60 } }   #3
           http_filters:
           - name: envoy.grpc_json_transcoder
             # configuration docs: https://github.com/envoyproxy/envoy/blob/master/api/envoy/config/filter/http/transcoder/v2/transcoder.proto
             config:
-              proto_descriptor: "/tmp/reservation_service_definition.pb"
-              services: ["reservations.v1.ReservationService"]
+              proto_descriptor: "/data/reservation_service_definition.pb"             #4
+              services: ["reservations.v1.ReservationService"]                        #5
               print_options:
                 add_whitespace: true
                 always_print_primitive_fields: true
                 always_print_enums_as_ints: false
-                preserve_proto_field_names: false
+                preserve_proto_field_names: false                                     #6
           - name: envoy.router
 
   clusters:
-  - name: grpc
+  - name: grpc-backend-services                  #7
     connect_timeout: 1.25s
     type: logical_dns
     lb_policy: round_robin
@@ -44,5 +44,5 @@ static_resources:
     http2_protocol_options: {}
     hosts:
     - socket_address:
-        address: 127.0.0.1
+        address: 127.0.0.1                       #8
         port_value: 53000

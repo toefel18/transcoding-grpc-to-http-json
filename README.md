@@ -73,6 +73,7 @@ The script start-envoy.sh automates the tasks below for linux and mac:
           -d '{
             "title": "Lunchmeeting2",
             "venue": "JDriven Coltbaan 3",
+            "room": "atrium",
             "timestamp": "2018-10-10T11:12:13",
             "attendees": [
                 {
@@ -95,6 +96,7 @@ The script start-envoy.sh automates the tasks below for linux and mac:
         "id": "2cec91a7-d2d6-4600-8cc3-4ebf5417ac4b",
         "title": "Lunchmeeting2",
         "venue": "JDriven Coltbaan 3",
+        "room": "atrium",
         "timestamp": "2018-10-10T11:12:13",
         "attendees": [
             {
@@ -122,6 +124,7 @@ The script start-envoy.sh automates the tasks below for linux and mac:
         "id": "2cec91a7-d2d6-4600-8cc3-4ebf5417ac4b",
         "title": "Lunchmeeting2",
         "venue": "JDriven Coltbaan 3",
+        "room": "atrium",
         "timestamp": "2018-10-10T11:12:13",
         "attendees": [
             {
@@ -142,13 +145,13 @@ The script start-envoy.sh automates the tasks below for linux and mac:
 
        curl -X DELETE http://localhost:51051/v1/reservations/<enter-id!!>
        
-1. Create several reservations, and then list them with
+1. Create several reservations (vary the fields), and then list them with
 
        curl -X GET http://localhost:51051/v1/reservations
        
 1. Then list them with a search on venue only
 
-      curl -X GET "http://localhost:51051/v1/reservations?venue=JDriven Coltbaan 3"
+      curl -X GET "http://localhost:51051/v1/reservations?venue=JDriven%20Coltbaan%203"
       
    example output:
     ```json
@@ -157,6 +160,7 @@ The script start-envoy.sh automates the tasks below for linux and mac:
             "id": "2cec91a7-d2d6-4600-8cc3-4ebf5417ac4b",
             "title": "Lunchmeeting2",
             "venue": "JDriven Coltbaan 3",
+            "room": "atrium",
             "timestamp": "2018-10-10T11:12:13",
             "attendees": [
                 {

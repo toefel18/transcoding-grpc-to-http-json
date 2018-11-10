@@ -90,10 +90,6 @@ message ListReservationsRequest {
     }
 }
 
-message PersonFilter {
-    string lastName = 1;
-}
-
 message DeleteReservationRequest {
     string id = 1;
 }
