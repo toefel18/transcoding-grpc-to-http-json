@@ -20,7 +20,7 @@ static_resources:
             - name: local_service
               domains: ["*"]
               routes:
-              - match: { prefix: "/" }
+              - match: { prefix: "/" , grpc: {}}  # grpc:{} means that requests are only forwarded if they are found in the grpc service definition, returning 404 for others
                 route: { cluster: grpc-backend-services, timeout: { seconds: 60 } }   #3
           http_filters:
           - name: envoy.grpc_json_transcoder
