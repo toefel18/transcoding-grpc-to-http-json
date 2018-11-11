@@ -2,11 +2,13 @@
 
 Sample project showing how to expose a gRPC service as a HTTP/JSON api. 
 
-[grpc-as-an-alternative-to-rest](https://blog.jdriven.com/2018/10/grpc-as-an-alternative-to-rest/)
+There is a blogpost containing an in-depth explanation of this project
 
+[Transcoding gRPC to HTTP JSON using Envoy](https://blog.jdriven.com/2018/11/transcoding-grpc-to-http-json-using-envoy/)
 
-Built with Java 11, but 1.8 should also be suppored, change `sourceCompatiblity` in the build.gradle to 1.8
+Built with Java 11, but 1.8 should also be supported, change `sourceCompatiblity` in the build.gradle to 1.8
 
+Requirements: docker
 
 ## Getting started
 
