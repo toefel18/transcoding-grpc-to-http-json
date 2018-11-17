@@ -52,23 +52,14 @@ class ReservationController extends ReservationServiceGrpc.ReservationServiceImp
     @Override
     public void listReservations(ListReservationsRequest request, StreamObserver<Reservation> responseObserver) {
         System.out.println("listReservations() called with " + request);
-        Stream<Reservation> result = reservationRepository.listReservations().stream();
-
-        if (!request.getVenue().isEmpty()) {
-            result = result.filter(it -> request.getVenue().equals(it.getVenue()));
+        if ("error".equals(request.getRoom())) {
+            responseObserver.onError(Status.UNAUTHENTICATED.asRuntimeException());
+        } else if ("throw".equals(request.getRoom())) {
+            throw Status.UNAUTHENTICATED.asRuntimeException();
+        } else {
+            // nothing, empty response should yield []
+            responseObserver.onCompleted();
         }
-        if (!request.getTimestamp().isEmpty()) {
-            result = result.filter(it -> request.getTimestamp().equals(it.getTimestamp()));
-        }
-        if (!request.getRoom().isEmpty()) {
-            result = result.filter(it -> request.getRoom().equals(it.getRoom()));
-        }
-        if (request.getAttendees() != null) {
-            List<String> requiredAttendeeLastNames = request.getAttendees().getLastNameList();
-            result = result.filter(it -> hasAttendeeLastNames(it, requiredAttendeeLastNames));
-        }
-        result.forEach(responseObserver::onNext);
-        responseObserver.onCompleted();
     }
 
     private boolean hasAttendeeLastNames(Reservation it, List<String> requiredAttendeeLastNames) {

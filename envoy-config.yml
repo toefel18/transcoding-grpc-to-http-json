@@ -20,8 +20,8 @@ static_resources:
             - name: local_service
               domains: ["*"]
               routes:
-              - match: { prefix: "/" , grpc: {}}  # grpc:{} means that requests are only forwarded if they are found in the grpc service definition, returning 404 for others
-                route: { cluster: grpc-backend-services, timeout: { seconds: 60 } }   #3
+              - match: { prefix: "/" , grpc: {}}  # 3a grpc:{} means that requests are only forwarded if they are found in the grpc service definition, returning 404 for others
+                route: { cluster: grpc-backend-services, timeout: { seconds: 60 } }   #3b
           http_filters:
           - name: envoy.grpc_json_transcoder
             # configuration docs: https://github.com/envoyproxy/envoy/blob/master/api/envoy/config/filter/http/transcoder/v2/transcoder.proto
